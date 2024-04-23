@@ -3,6 +3,12 @@
 
 ## Available Scripts
 
+Git repo to clone the project
+### https://github.com/Ajaydagaraju/weatherupdate.git
+
+Install packages before run
+###  `npm i`
+
 In the project directory, you can run:
 
 ### `npm start`
