@@ -1,5 +1,5 @@
+import Weather from "./Componenet/Weather";
 
-import Weather from './Componenet/Weather';
 
 function App() {
   return (

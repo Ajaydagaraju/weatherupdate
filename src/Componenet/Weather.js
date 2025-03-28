@@ -1,37 +1,49 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { TextField, Button, Typography, Container } from '@mui/material';
-import CircularProgress from '@mui/material/CircularProgress';
-import '../style.scss'
-import CommonCard from './CommonCard';
+import { TextField, Button, Typography, Container, CircularProgress } from '@mui/material';
+import '../style.scss';
+import ForecastCard from './ForecastCard';
+import CurrentWeatherCard from './CurrentWeatherCard';
 
 const API_KEY = 'd72ebfa683127f59dcd97ff7b78de6a3';
 
 const Weather = () => {
     const [city, setCity] = useState('');
     const [weatherData, setWeatherData] = useState(null);
+    const [forecastData, setForecastData] = useState(null);
     const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
 
     const fetchWeatherData = async () => {
-        if(city === ""){
-            setError("Please enter a city name.")
-            return
+        if (!city) {
+            setError('Please enter a city name.');
+            return;
         }
-        setLoading(true)
+
+        setLoading(true);
+
         try {
-            const response = await axios.get(
+            // Fetch current weather data
+            const weatherResponse = await axios.get(
                 `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
             );
-            setWeatherData(response.data);
+
+            // Fetch 5-day forecast data
+            const forecastResponse = await axios.get(
+                `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric`
+            );
+
+            setWeatherData(weatherResponse.data);
+            setForecastData(forecastResponse.data.list);
             setError(null);
             setCity('');
-            setLoading(false)
         } catch (error) {
             console.error('Error fetching weather data:', error);
-            setError('City not found. Please try another City.');
+            setError('City not found. Please try another city.');
             setWeatherData(null);
-            setLoading(false)
+            setForecastData(null);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -58,7 +70,13 @@ const Weather = () => {
                 </Button>
             </div>
             {error && <Typography variant="body1" color="error">{error}</Typography>}
-            {weatherData && !error && <CommonCard data={weatherData} />}
+            
+            {weatherData && !error && (
+                <>
+                    <CurrentWeatherCard data={weatherData} />
+                    <ForecastCard forecast={forecastData} />
+                </>
+            )}
         </Container>
     );
 };
