@@ -13,7 +13,7 @@ In the project directory, you can run:
 
 ### `npm start`
 
-### Open (https://weatherupdatelive.netlify.app/) to view it in your browser.
+### Open (https://weather5dayforcast.netlify.app/) to view it in your browser.
 
 ### Create build
 - npm run build
@@ -27,6 +27,7 @@ In the project directory, you can run:
 - npm i @emotion/styled 
 - npm i axios
 - npm i sass
+- npm i moment
 
 ### Features
 - Implment Search functionality for weather information by entering a city name.
